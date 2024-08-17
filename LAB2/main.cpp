@@ -23,14 +23,13 @@ int main() {
     }
 
     while (fin >> heap[size++]);
-    fin.close();
-    
     makeHeap();
-
+    
     for (int i = 0; i < 5; i++) {
         std::cout << heap[i] << " " << std::endl;
     }
 
+    fin.close();
     return 0;
 }
 
@@ -47,10 +46,14 @@ void makeHeap() {
 void siftDown(int current) {
     int child = 2 * current + 1;
     if (child >= size) { return; }
-    if (child + 1 < size *heap[child] < heap[child + 1]) {child++;}
+    if ((child + 1 < size) && (heap[child] < heap[child + 1])) {child++;}
     if (heap[current] < heap[child]) {
-        int temp = heap[child];
-        heap[child] = temp;
         siftDown(child);
+        int temp = heap[current];
+        heap[current] = heap[child];
+        heap[child] = temp;
     }
+
+
+    return;
 }
