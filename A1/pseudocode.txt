@@ -1,0 +1,100 @@
+SIZE = 50000
+WORD_SIZE = 20
+
+text[SIZE * WORD_SIZE]
+start[SIZE]
+
+record word {
+    word[WORD_SIZE],
+    count
+}
+
+count[SIZE]
+
+initialise
+    input(filename)
+
+
+    character
+    index = 0
+    words = 0
+    character_index = 0
+
+    while (read character)
+        if character is not whitespace then
+            if character_index is 0 then
+                start[words] = index
+            fi
+
+            if character is in the alphabet then
+                text[index] = lowercase character
+                index ++
+            fi
+
+            if next character is whitespace then
+                words ++
+                character_index = 0
+
+            else
+                character_index++
+            fi
+        fi
+    elihw
+
+
+    count_index = 0
+
+    for i = 0 to words do
+        begin = start[i]
+        end = start[i + 1] - 1
+
+        if i is equal to words - 1 then 
+            end = index - 1
+        fi
+
+        // null terminate
+        temp[(end - begin) + 1] = endofstring
+
+        found = -1
+
+        for int j to words do
+            if temp is equal to count[j].word then
+                found = j
+                break
+            fi
+        rof
+
+        if found is greater than or equal to 0 then
+            count[found].count++
+        else
+            copy_word(count[count_index].word, temp)
+            count[count_index].count = 1
+
+            count_index++
+        fi
+
+    rof
+
+    quicksort(count)
+
+    print "The first 10 words sorted alphabetically within frequency:"
+
+    for i is less than 10 do
+        print "The word" + count[i].word + "occurs" + count[i].count + "times."
+    rof
+
+
+    print "The last 10 words sorted alphabetically within frequency:"
+
+    for i = count_index -1 and i is less than count_index do
+        print "The word" + count[i].word + "occurs" + count[i].count + "times."
+    rof
+
+    print "The unique words sorted alphabetically:"
+
+    for i = 0 to count_index do
+        if count[i].count == 1 then
+            print "The word" + count[i].word + "occurs" + count[i].count + "times."
+        fi
+    rof
+esilaitini
