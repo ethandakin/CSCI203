@@ -11,9 +11,13 @@ struct customer {
     float key;
 };
 
-const int HEAP_SIZE = 100;
-customer heap[HEAP_SIZE];
+const int MAX_SIZE = 100;
+customer heap[MAX_SIZE];
 int ctr = 0;
+
+customer queue[MAX_SIZE];
+int start = 0;
+int next = 0;
 
 bool compare(customer a, customer b) {
     if (a.priority > b.priority) {
@@ -77,6 +81,28 @@ customer remove() {
     ctr--;
     siftDown(0);
     return elt;
+}
+
+void enqueue(customer elt) {
+    queue[next] = elt;
+    next++;
+
+    if (next > MAX_SIZE) {
+        next = 1;
+    }
+}
+
+void dequeue(customer elt) {
+    if (start == next) {
+        // null
+    } else {
+        elt = queue[start];
+    }
+
+    start++;
+    if (start > MAX_SIZE) {
+        start = 0;
+    }
 }
 
 void simulation(int teller_n) {
