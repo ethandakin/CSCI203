@@ -1,0 +1,71 @@
+initialise
+    input(filename)
+    input(n_tellers)
+
+    MAX_SIZE = 100;
+
+    queue
+    tellers
+    customer
+
+    currentTime, totalWaitTime, totalServiceTime, totalCustomers, maxQueueLength, queueLengthSum, timeSteps = 0;
+
+    while (read arrival, service, priority into customer)
+        if arrival is 0 and service is 0 then
+            break
+        fi
+
+        currentTime = arrival
+
+        for (i = 0; i < n_tellers; i++) do
+            if tellers[i] is busy and tellers[i] is finished then
+                tellers[i].finish()
+
+                if (queue is not empty) then
+                    next = queue.dequeue()
+                    tellers[i].serve(currentTime, next.service)
+                    totalWaitTime += currentTime - next.arrival
+                fi
+            fi
+        rof
+
+        customerServed = false
+
+        for (i = 0; i < n_tellers; i++) do
+            if not tellers[i] is busy then
+                tellers[i].serve(currentTime, service)
+                customerServed = true
+                break
+            fi
+        rof
+
+        if not customerServed then
+            queue.enqueue(customer)
+        fi
+
+        currentQueueLength = queue.size()
+        queueLengthSum += currentQueueLength
+        timeSteps++
+        totalCustomers++
+        totalServiceTime += service
+    elihw
+
+    while (queue is not empty)
+        currentTime++
+
+        for (int i = 0; i < n_tellers; i++) do
+            if tellers[i] is busy and tellers[i] is finished then
+                tellers[i] finish service(currentTime)
+
+                if (queue is not empty) then
+                    next = queue.dequeue()
+                    tellers[i].serve(currentTime, next.service)
+                    totalWaitTime += currentTime - next.arrival
+                fi
+            fi  
+        rof
+
+    elihw
+
+    print out simulation information
+esilaitini
